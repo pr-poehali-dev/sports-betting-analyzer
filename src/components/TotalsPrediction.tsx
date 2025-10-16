@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { toast } from 'sonner';
 import Icon from '@/components/ui/icon';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
 
@@ -64,6 +66,30 @@ const confidenceData = [
 
 const TotalsPrediction = () => {
   const [selectedGame, setSelectedGame] = useState('all');
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const [notifications, setNotifications] = useState(false);
+
+  const toggleFavorite = (gameId: number) => {
+    setFavorites(prev => {
+      const isFavorite = prev.includes(gameId);
+      if (isFavorite) {
+        toast.success('Прогноз удален из избранного');
+        return prev.filter(id => id !== gameId);
+      } else {
+        toast.success('Прогноз добавлен в избранное');
+        return [...prev, gameId];
+      }
+    });
+  };
+
+  const handleNotificationToggle = (checked: boolean) => {
+    setNotifications(checked);
+    if (checked) {
+      toast.success('Уведомления включены! Вы будете получать прогнозы на новые матчи');
+    } else {
+      toast.info('Уведомления отключены');
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -93,21 +119,45 @@ const TotalsPrediction = () => {
         </div>
       </Card>
 
-      <div className="flex flex-col md:flex-row gap-4">
-        <Select value={selectedGame} onValueChange={setSelectedGame}>
-          <SelectTrigger className="w-full md:w-64 bg-input border-border">
-            <SelectValue placeholder="Матч" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Все матчи</SelectItem>
-            <SelectItem value="today">Сегодня</SelectItem>
-            <SelectItem value="tomorrow">Завтра</SelectItem>
-          </SelectContent>
-        </Select>
+      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+        <div className="flex flex-col sm:flex-row gap-4 flex-1">
+          <Select value={selectedGame} onValueChange={setSelectedGame}>
+            <SelectTrigger className="w-full md:w-64 bg-input border-border">
+              <SelectValue placeholder="Матч" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Все матчи</SelectItem>
+              <SelectItem value="favorites">Избранное ({favorites.length})</SelectItem>
+              <SelectItem value="today">Сегодня</SelectItem>
+              <SelectItem value="tomorrow">Завтра</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        
+        <Card className="p-4 bg-card border-border">
+          <div className="flex items-center gap-3">
+            <Icon name="Bell" size={20} className={notifications ? 'text-primary' : 'text-muted-foreground'} />
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-foreground">Уведомления</span>
+              <span className="text-xs text-muted-foreground">О новых прогнозах</span>
+            </div>
+            <Switch 
+              checked={notifications} 
+              onCheckedChange={handleNotificationToggle}
+            />
+          </div>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        {upcomingGames.map((game) => (
+        {upcomingGames
+          .filter(game => {
+            if (selectedGame === 'favorites') return favorites.includes(game.id);
+            if (selectedGame === 'today') return game.date === '2024-11-05';
+            if (selectedGame === 'tomorrow') return game.date === '2024-11-06';
+            return true;
+          })
+          .map((game) => (
           <Card key={game.id} className="p-6 bg-card border-border hover:border-primary/50 transition-all">
             <div className="flex flex-col lg:flex-row gap-6">
               <div className="lg:w-2/5">
@@ -167,7 +217,7 @@ const TotalsPrediction = () => {
                     ></div>
                   </div>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 mb-4">
                   <p className="text-xs font-medium text-muted-foreground">Ключевые факторы:</p>
                   {game.factors.map((factor, idx) => (
                     <div key={idx} className="flex items-center gap-2">
@@ -176,6 +226,17 @@ const TotalsPrediction = () => {
                     </div>
                   ))}
                 </div>
+                <Button
+                  onClick={() => toggleFavorite(game.id)}
+                  variant={favorites.includes(game.id) ? "default" : "outline"}
+                  className="w-full gap-2"
+                >
+                  <Icon 
+                    name={favorites.includes(game.id) ? "Star" : "StarOff"} 
+                    size={16} 
+                  />
+                  {favorites.includes(game.id) ? 'В избранном' : 'Добавить в избранное'}
+                </Button>
               </div>
             </div>
           </Card>
