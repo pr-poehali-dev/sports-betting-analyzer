@@ -20,39 +20,75 @@ const trendData = [
 const upcomingGames = [
   {
     id: 1,
-    homeTeam: 'Лейкерс',
-    awayTeam: 'Вориорз',
-    date: '2024-11-05',
-    time: '22:00',
-    predictedTotal: 224.5,
-    bookmakerLine: 221.5,
-    confidence: 78,
+    homeTeam: 'Бруклин Нетс',
+    awayTeam: 'Мемфис Гриззлис',
+    date: '2025-10-22',
+    time: '19:30',
+    predictedTotal: 227.5,
+    bookmakerLine: 225.5,
+    confidence: 76,
     trend: 'over',
-    factors: ['Высокий темп', 'Слабая защита', 'Серия тоталов больше']
+    factors: ['Высокий темп обеих команд', 'Слабая защита Бруклина', 'Моран в отличной форме']
   },
   {
     id: 2,
-    homeTeam: 'Селтикс',
-    awayTeam: 'Хит',
-    date: '2024-11-06',
-    time: '01:00',
-    predictedTotal: 208.5,
-    bookmakerLine: 212.5,
-    confidence: 65,
+    homeTeam: 'Майами Хит',
+    awayTeam: 'Атланта Хокс',
+    date: '2025-10-22',
+    time: '20:00',
+    predictedTotal: 219.5,
+    bookmakerLine: 221.0,
+    confidence: 68,
     trend: 'under',
-    factors: ['Сильная защита', 'Низкий темп', 'Травмы ключевых игроков']
+    factors: ['Майами играет от защиты', 'Янг травмирован', 'Низкий темп последних встреч']
   },
   {
     id: 3,
-    homeTeam: 'Мэверикс',
-    awayTeam: 'Санс',
-    date: '2024-11-06',
-    time: '02:30',
-    predictedTotal: 232.5,
-    bookmakerLine: 228.5,
-    confidence: 82,
+    homeTeam: 'Лос-Анджелес Лейкерс',
+    awayTeam: 'Кливленд Кавальерс',
+    date: '2025-10-22',
+    time: '22:00',
+    predictedTotal: 233.5,
+    bookmakerLine: 229.5,
+    confidence: 81,
     trend: 'over',
-    factors: ['Очень высокий темп', 'Атакующие лидеры', 'История встреч']
+    factors: ['Леброн vs бывшая команда', 'Отличные атаки обеих', 'Серия результативных игр']
+  },
+  {
+    id: 4,
+    homeTeam: 'Голден Стэйт Вориорз',
+    awayTeam: 'Денвер Наггетс',
+    date: '2025-10-22',
+    time: '22:30',
+    predictedTotal: 238.5,
+    bookmakerLine: 236.0,
+    confidence: 85,
+    trend: 'over',
+    factors: ['Топ-1 по темпу лиги', 'Йокич + Карри = шоу', 'Слабые скамейки защиты']
+  },
+  {
+    id: 5,
+    homeTeam: 'Даллас Мэверикс',
+    awayTeam: 'Юта Джаз',
+    date: '2025-10-22',
+    time: '21:00',
+    predictedTotal: 224.0,
+    bookmakerLine: 226.5,
+    confidence: 72,
+    trend: 'under',
+    factors: ['Юта играет медленно', 'Даллас без Ирвинга', 'История низких тоталов']
+  },
+  {
+    id: 6,
+    homeTeam: 'Финикс Санс',
+    awayTeam: 'Сакраменто Кингз',
+    date: '2025-10-22',
+    time: '23:00',
+    predictedTotal: 241.5,
+    bookmakerLine: 238.5,
+    confidence: 88,
+    trend: 'over',
+    factors: ['Оба топ-3 по темпу', 'Дюрант в огне', 'Защиты проваливаются']
   },
 ];
 
@@ -153,8 +189,8 @@ const TotalsPrediction = () => {
         {upcomingGames
           .filter(game => {
             if (selectedGame === 'favorites') return favorites.includes(game.id);
-            if (selectedGame === 'today') return game.date === '2024-11-05';
-            if (selectedGame === 'tomorrow') return game.date === '2024-11-06';
+            if (selectedGame === 'today') return game.date === '2025-10-22';
+            if (selectedGame === 'tomorrow') return game.date === '2025-10-23';
             return true;
           })
           .map((game) => (
