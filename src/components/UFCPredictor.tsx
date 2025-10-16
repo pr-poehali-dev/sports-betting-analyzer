@@ -29,6 +29,139 @@ interface PredictionResult {
   factors: string[];
 }
 
+const UFC_FIGHTERS: Record<string, Fighter> = {
+  'islam-makhachev': {
+    name: 'Ислам Махачев',
+    wins: 26,
+    losses: 1,
+    draws: 0,
+    strikeAccuracy: 52,
+    takedownAccuracy: 58,
+    submissionRate: 62,
+    koRate: 23,
+    age: 33,
+    reach: 178,
+    weight: 70
+  },
+  'alex-volkanovski': {
+    name: 'Александр Волкановски',
+    wins: 26,
+    losses: 3,
+    draws: 0,
+    strikeAccuracy: 56,
+    takedownAccuracy: 45,
+    submissionRate: 15,
+    koRate: 42,
+    age: 35,
+    reach: 168,
+    weight: 66
+  },
+  'jon-jones': {
+    name: 'Джон Джонс',
+    wins: 27,
+    losses: 1,
+    draws: 0,
+    strikeAccuracy: 52,
+    takedownAccuracy: 43,
+    submissionRate: 33,
+    koRate: 33,
+    age: 37,
+    reach: 215,
+    weight: 108
+  },
+  'alexander-pereira': {
+    name: 'Алекс Перейра',
+    wins: 11,
+    losses: 2,
+    draws: 0,
+    strikeAccuracy: 58,
+    takedownAccuracy: 0,
+    submissionRate: 0,
+    koRate: 82,
+    age: 37,
+    reach: 201,
+    weight: 93
+  },
+  'sean-omalley': {
+    name: 'Шон О\'Мэлли',
+    wins: 18,
+    losses: 1,
+    draws: 1,
+    strikeAccuracy: 54,
+    takedownAccuracy: 20,
+    submissionRate: 17,
+    koRate: 61,
+    age: 30,
+    reach: 183,
+    weight: 61
+  },
+  'dricus-du-plessis': {
+    name: 'Дрикус Дю Плесси',
+    wins: 21,
+    losses: 2,
+    draws: 0,
+    strikeAccuracy: 48,
+    takedownAccuracy: 55,
+    submissionRate: 38,
+    koRate: 38,
+    age: 30,
+    reach: 193,
+    weight: 84
+  },
+  'ilia-topuria': {
+    name: 'Илия Топурия',
+    wins: 15,
+    losses: 0,
+    draws: 0,
+    strikeAccuracy: 60,
+    takedownAccuracy: 75,
+    submissionRate: 33,
+    koRate: 53,
+    age: 27,
+    reach: 175,
+    weight: 66
+  },
+  'tom-aspinall': {
+    name: 'Том Аспинал',
+    wins: 15,
+    losses: 3,
+    draws: 0,
+    strikeAccuracy: 56,
+    takedownAccuracy: 62,
+    submissionRate: 47,
+    koRate: 60,
+    age: 31,
+    reach: 200,
+    weight: 115
+  },
+  'belal-muhammad': {
+    name: 'Белал Мухаммад',
+    wins: 24,
+    losses: 3,
+    draws: 1,
+    strikeAccuracy: 46,
+    takedownAccuracy: 49,
+    submissionRate: 13,
+    koRate: 25,
+    age: 36,
+    reach: 183,
+    weight: 77
+  },
+  'merab-dvalishvili': {
+    name: 'Мераб Двалишвили',
+    wins: 17,
+    losses: 4,
+    draws: 0,
+    strikeAccuracy: 43,
+    takedownAccuracy: 55,
+    submissionRate: 18,
+    koRate: 6,
+    age: 34,
+    reach: 173,
+    weight: 61
+  }
+};
+
 const UFCPredictor = () => {
   const [fighter1, setFighter1] = useState<Fighter>({
     name: '',
@@ -134,6 +267,19 @@ const UFCPredictor = () => {
     setFighter2(prev => ({ ...prev, [field]: value }));
   };
 
+  const loadFighter = (fighterKey: string, fighterNum: 1 | 2) => {
+    const fighter = UFC_FIGHTERS[fighterKey];
+    if (fighter) {
+      if (fighterNum === 1) {
+        setFighter1(fighter);
+        toast.success(`${fighter.name} загружен`);
+      } else {
+        setFighter2(fighter);
+        toast.success(`${fighter.name} загружен`);
+      }
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Card className="p-6 bg-gradient-to-br from-accent/10 to-primary/10 border-accent/20">
@@ -142,8 +288,8 @@ const UFCPredictor = () => {
             <Icon name="Swords" size={24} className="text-accent-foreground" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-foreground">UFC Калькулятор</h3>
-            <p className="text-sm text-muted-foreground">Прогнозирование исходов поединков</p>
+            <h3 className="text-xl font-bold text-foreground">UFC 5 Калькулятор</h3>
+            <p className="text-sm text-muted-foreground">Прогнозирование исходов поединков с топ-бойцами</p>
           </div>
         </div>
       </Card>
@@ -158,6 +304,27 @@ const UFCPredictor = () => {
           </div>
 
           <div className="space-y-4">
+            <div>
+              <Label>Выбрать из UFC 5</Label>
+              <Select onValueChange={(value) => loadFighter(value, 1)}>
+                <SelectTrigger className="bg-input border-border">
+                  <SelectValue placeholder="Выберите бойца" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="islam-makhachev">🥇 Ислам Махачев (26-1)</SelectItem>
+                  <SelectItem value="alex-volkanovski">🥈 А. Волкановски (26-3)</SelectItem>
+                  <SelectItem value="jon-jones">🔥 Джон Джонс (27-1)</SelectItem>
+                  <SelectItem value="alexander-pereira">⚡ Алекс Перейра (11-2)</SelectItem>
+                  <SelectItem value="sean-omalley">💎 Шон О'Мэлли (18-1-1)</SelectItem>
+                  <SelectItem value="dricus-du-plessis">🦁 Д. Дю Плесси (21-2)</SelectItem>
+                  <SelectItem value="ilia-topuria">🇬🇪 Илия Топурия (15-0)</SelectItem>
+                  <SelectItem value="tom-aspinall">🇬🇧 Том Аспинал (15-3)</SelectItem>
+                  <SelectItem value="belal-muhammad">🇵🇸 Белал Мухаммад (24-3-1)</SelectItem>
+                  <SelectItem value="merab-dvalishvili">🇬🇪 М. Двалишвили (17-4)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
             <div>
               <Label htmlFor="f1-name">Имя бойца</Label>
               <Input
@@ -292,6 +459,27 @@ const UFCPredictor = () => {
           </div>
 
           <div className="space-y-4">
+            <div>
+              <Label>Выбрать из UFC 5</Label>
+              <Select onValueChange={(value) => loadFighter(value, 2)}>
+                <SelectTrigger className="bg-input border-border">
+                  <SelectValue placeholder="Выберите бойца" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="islam-makhachev">🥇 Ислам Махачев (26-1)</SelectItem>
+                  <SelectItem value="alex-volkanovski">🥈 А. Волкановски (26-3)</SelectItem>
+                  <SelectItem value="jon-jones">🔥 Джон Джонс (27-1)</SelectItem>
+                  <SelectItem value="alexander-pereira">⚡ Алекс Перейра (11-2)</SelectItem>
+                  <SelectItem value="sean-omalley">💎 Шон О'Мэлли (18-1-1)</SelectItem>
+                  <SelectItem value="dricus-du-plessis">🦁 Д. Дю Плесси (21-2)</SelectItem>
+                  <SelectItem value="ilia-topuria">🇬🇪 Илия Топурия (15-0)</SelectItem>
+                  <SelectItem value="tom-aspinall">🇬🇧 Том Аспинал (15-3)</SelectItem>
+                  <SelectItem value="belal-muhammad">🇵🇸 Белал Мухаммад (24-3-1)</SelectItem>
+                  <SelectItem value="merab-dvalishvili">🇬🇪 М. Двалишвили (17-4)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
             <div>
               <Label htmlFor="f2-name">Имя бойца</Label>
               <Input
