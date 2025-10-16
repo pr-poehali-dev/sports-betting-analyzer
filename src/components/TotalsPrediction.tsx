@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -6,6 +6,7 @@ import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import Icon from '@/components/ui/icon';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
+import { fetchPredictions, type Prediction } from '@/lib/api';
 
 const trendData = [
   { date: '01.10', actual: 218, predicted: 215, line: 216 },
@@ -104,6 +105,32 @@ const TotalsPrediction = () => {
   const [selectedGame, setSelectedGame] = useState('all');
   const [favorites, setFavorites] = useState<number[]>([]);
   const [notifications, setNotifications] = useState(false);
+  const [predictions, setPredictions] = useState<Prediction[]>(upcomingGames);
+  const [modelStats, setModelStats] = useState({ accuracy: 73.2, totalGames: 2847 });
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    loadPredictions();
+  }, []);
+
+  const loadPredictions = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchPredictions();
+      if (data.predictions && data.predictions.length > 0) {
+        setPredictions(data.predictions);
+        setModelStats({
+          accuracy: data.model_accuracy,
+          totalGames: data.total_games_analyzed
+        });
+        toast.success('Прогнозы обновлены');
+      }
+    } catch (error) {
+      toast.error('Используются демо-данные');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleFavorite = (gameId: number) => {
     setFavorites(prev => {
@@ -142,15 +169,23 @@ const TotalsPrediction = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-card/50 backdrop-blur-sm p-4 rounded-lg border border-border">
             <p className="text-sm text-muted-foreground mb-1">Точность модели</p>
-            <p className="text-3xl font-bold text-primary">73.2%</p>
+            <p className="text-3xl font-bold text-primary">{modelStats.accuracy}%</p>
           </div>
           <div className="bg-card/50 backdrop-blur-sm p-4 rounded-lg border border-border">
             <p className="text-sm text-muted-foreground mb-1">Проанализировано игр</p>
-            <p className="text-3xl font-bold text-secondary">2,847</p>
+            <p className="text-3xl font-bold text-secondary">{modelStats.totalGames.toLocaleString()}</p>
           </div>
           <div className="bg-card/50 backdrop-blur-sm p-4 rounded-lg border border-border">
-            <p className="text-sm text-muted-foreground mb-1">ROI за сезон</p>
-            <p className="text-3xl font-bold text-accent">+12.4%</p>
+            <p className="text-sm text-muted-foreground mb-1">Статус</p>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={loadPredictions}
+              disabled={loading}
+              className="text-2xl font-bold text-accent hover:bg-accent/10 p-0 h-auto"
+            >
+              {loading ? 'Обновление...' : '🔄 Обновить'}
+            </Button>
           </div>
         </div>
       </Card>
@@ -186,7 +221,13 @@ const TotalsPrediction = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        {upcomingGames
+        {loading && (
+          <Card className="p-8 text-center">
+            <Icon name="Loader2" size={32} className="animate-spin text-primary mx-auto mb-2" />
+            <p className="text-muted-foreground">Загрузка прогнозов...</p>
+          </Card>
+        )}
+        {!loading && predictions
           .filter(game => {
             if (selectedGame === 'favorites') return favorites.includes(game.id);
             if (selectedGame === 'today') return game.date === '2025-10-22';
