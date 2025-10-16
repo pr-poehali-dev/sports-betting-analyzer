@@ -1,0 +1,10 @@
+{
+  "tests": [
+    {
+      "name": "Get teams statistics",
+      "method": "GET",
+      "path": "/?endpoint=teams",
+      "expectedStatus": 200
+    }
+  ]
+}
