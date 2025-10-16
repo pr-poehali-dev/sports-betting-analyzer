@@ -5,6 +5,7 @@ import Icon from '@/components/ui/icon';
 import TeamStats from '@/components/TeamStats';
 import PlayerStats from '@/components/PlayerStats';
 import TotalsPrediction from '@/components/TotalsPrediction';
+import UFCPredictor from '@/components/UFCPredictor';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('teams');
@@ -46,7 +47,7 @@ const Index = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:inline-grid">
+          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
             <TabsTrigger value="teams" className="gap-2">
               <Icon name="Users" size={16} />
               Команды
@@ -57,7 +58,11 @@ const Index = () => {
             </TabsTrigger>
             <TabsTrigger value="prediction" className="gap-2">
               <Icon name="LineChart" size={16} />
-              Прогноз
+              Тоталы
+            </TabsTrigger>
+            <TabsTrigger value="ufc" className="gap-2">
+              <Icon name="Swords" size={16} />
+              UFC
             </TabsTrigger>
           </TabsList>
 
@@ -71,6 +76,10 @@ const Index = () => {
 
           <TabsContent value="prediction" className="space-y-6">
             <TotalsPrediction />
+          </TabsContent>
+
+          <TabsContent value="ufc" className="space-y-6">
+            <UFCPredictor />
           </TabsContent>
         </Tabs>
       </main>
