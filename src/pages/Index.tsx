@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
-import TeamStats from '@/components/TeamStats';
 import PlayerStats from '@/components/PlayerStats';
 import TotalsPrediction from '@/components/TotalsPrediction';
 import UFCPredictor from '@/components/UFCPredictor';
 import FootballValueBets from '@/components/FootballValueBets';
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState('teams');
+  const [activeTab, setActiveTab] = useState('players');
 
   return (
     <div className="min-h-screen bg-background">
@@ -48,11 +47,7 @@ const Index = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:inline-grid">
-            <TabsTrigger value="teams" className="gap-2">
-              <Icon name="Users" size={16} />
-              Команды
-            </TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
             <TabsTrigger value="players" className="gap-2">
               <Icon name="User" size={16} />
               Игроки
@@ -70,10 +65,6 @@ const Index = () => {
               UFC
             </TabsTrigger>
           </TabsList>
-
-          <TabsContent value="teams" className="space-y-6">
-            <TeamStats />
-          </TabsContent>
 
           <TabsContent value="players" className="space-y-6">
             <PlayerStats />
