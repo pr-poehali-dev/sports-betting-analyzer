@@ -122,15 +122,11 @@ const TotalsPrediction = () => {
         toast.success('Прогнозы обновлены');
       }
     } catch (error) {
-      toast.error('Используются демо-данные');
+      console.log('Используются демо-данные');
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    loadPredictions();
-  }, []);
 
   const toggleFavorite = (gameId: number) => {
     setFavorites(prev => {
