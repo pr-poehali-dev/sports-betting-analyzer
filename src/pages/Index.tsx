@@ -5,6 +5,7 @@ import Icon from '@/components/ui/icon';
 import FootballMatches from '@/components/FootballMatches';
 import FootballTotals from '@/components/FootballTotals';
 import FootballStats from '@/components/FootballStats';
+import FootballCards from '@/components/FootballCards';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('matches');
@@ -41,12 +42,12 @@ const Index = () => {
             Футбольная аналитика
           </h2>
           <p className="text-muted-foreground">
-            ИИ-анализ матчей и прогнозирование тоталов голов
+            ИИ-анализ матчей: тоталы голов, желтые и красные карточки
           </p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:inline-grid">
+          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
             <TabsTrigger value="matches" className="gap-2">
               <Icon name="CalendarDays" size={16} />
               Матчи
@@ -54,6 +55,10 @@ const Index = () => {
             <TabsTrigger value="totals" className="gap-2">
               <Icon name="Target" size={16} />
               Тоталы
+            </TabsTrigger>
+            <TabsTrigger value="cards" className="gap-2">
+              <Icon name="AlertTriangle" size={16} />
+              Карточки
             </TabsTrigger>
             <TabsTrigger value="stats" className="gap-2">
               <Icon name="BarChart3" size={16} />
@@ -67,6 +72,10 @@ const Index = () => {
 
           <TabsContent value="totals" className="space-y-6">
             <FootballTotals />
+          </TabsContent>
+
+          <TabsContent value="cards" className="space-y-6">
+            <FootballCards />
           </TabsContent>
 
           <TabsContent value="stats" className="space-y-6">
