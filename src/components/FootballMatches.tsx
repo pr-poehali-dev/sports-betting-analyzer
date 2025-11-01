@@ -8,6 +8,25 @@ import Icon from '@/components/ui/icon';
 const matchesData = [
   {
     id: 1,
+    league: 'РПЛ',
+    homeTeam: 'Зенит',
+    awayTeam: 'Локомотив',
+    date: '2025-11-02',
+    time: '16:30',
+    status: 'upcoming',
+    predictedGoals: 2.7,
+    bookmakerLine: 2.5,
+    homeForm: ['W', 'W', 'W', 'D', 'W'],
+    awayForm: ['D', 'L', 'W', 'D', 'W'],
+    h2hGoals: 2.9,
+    confidence: 78,
+    winPrediction: 'home',
+    homeWinProb: 58,
+    drawProb: 26,
+    awayWinProb: 16
+  },
+  {
+    id: 2,
     league: 'АПЛ',
     homeTeam: 'Манчестер Сити',
     awayTeam: 'Арсенал',
@@ -142,6 +161,7 @@ const FootballMatches = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Все лиги</SelectItem>
+            <SelectItem value="rpl">РПЛ</SelectItem>
             <SelectItem value="epl">АПЛ</SelectItem>
             <SelectItem value="laliga">Ла Лига</SelectItem>
             <SelectItem value="seriea">Серия А</SelectItem>
@@ -236,6 +256,31 @@ const FootballMatches = () => {
                       <span className="text-sm text-muted-foreground">Уверенность:</span>
                       <span className="text-sm font-bold text-foreground">{match.confidence}%</span>
                     </div>
+                    {match.winPrediction && (
+                      <div className="mt-4 p-3 bg-accent/10 rounded-lg border border-accent/20">
+                        <p className="text-xs text-muted-foreground mb-2">Прогноз победителя</p>
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm">{match.homeTeam}</span>
+                            <span className={`text-sm font-bold ${match.winPrediction === 'home' ? 'text-accent' : 'text-muted-foreground'}`}>
+                              {match.homeWinProb}%
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm">Ничья</span>
+                            <span className={`text-sm font-bold ${match.winPrediction === 'draw' ? 'text-accent' : 'text-muted-foreground'}`}>
+                              {match.drawProb}%
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm">{match.awayTeam}</span>
+                            <span className={`text-sm font-bold ${match.winPrediction === 'away' ? 'text-accent' : 'text-muted-foreground'}`}>
+                              {match.awayWinProb}%
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="mt-4">
