@@ -2,13 +2,12 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
-import PlayerStats from '@/components/PlayerStats';
-import TotalsPrediction from '@/components/TotalsPrediction';
-import UFCPredictor from '@/components/UFCPredictor';
-import FootballValueBets from '@/components/FootballValueBets';
+import FootballMatches from '@/components/FootballMatches';
+import FootballTotals from '@/components/FootballTotals';
+import FootballStats from '@/components/FootballStats';
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState('players');
+  const [activeTab, setActiveTab] = useState('matches');
 
   return (
     <div className="min-h-screen bg-background">
@@ -20,8 +19,8 @@ const Index = () => {
                 <Icon name="TrendingUp" size={24} className="text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-foreground">BetAnalyzer</h1>
-                <p className="text-xs text-muted-foreground">Анализ спортивных тоталов</p>
+                <h1 className="text-2xl font-bold text-foreground">⚽ FootballAnalytics</h1>
+                <p className="text-xs text-muted-foreground">Прогнозы тоталов в футболе</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -39,47 +38,39 @@ const Index = () => {
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-foreground mb-2">
-            Аналитика и прогнозы
+            Футбольная аналитика
           </h2>
           <p className="text-muted-foreground">
-            Профессиональный анализ статистики для прогнозирования тоталов
+            ИИ-анализ матчей и прогнозирование тоталов голов
           </p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
-            <TabsTrigger value="players" className="gap-2">
-              <Icon name="User" size={16} />
-              Игроки
+          <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:inline-grid">
+            <TabsTrigger value="matches" className="gap-2">
+              <Icon name="CalendarDays" size={16} />
+              Матчи
             </TabsTrigger>
-            <TabsTrigger value="prediction" className="gap-2">
-              <Icon name="LineChart" size={16} />
+            <TabsTrigger value="totals" className="gap-2">
+              <Icon name="Target" size={16} />
               Тоталы
             </TabsTrigger>
-            <TabsTrigger value="football" className="gap-2">
-              <Icon name="TrendingUp" size={16} />
-              Валуй
-            </TabsTrigger>
-            <TabsTrigger value="ufc" className="gap-2">
-              <Icon name="Swords" size={16} />
-              UFC
+            <TabsTrigger value="stats" className="gap-2">
+              <Icon name="BarChart3" size={16} />
+              Статистика
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="players" className="space-y-6">
-            <PlayerStats />
+          <TabsContent value="matches" className="space-y-6">
+            <FootballMatches />
           </TabsContent>
 
-          <TabsContent value="prediction" className="space-y-6">
-            <TotalsPrediction />
+          <TabsContent value="totals" className="space-y-6">
+            <FootballTotals />
           </TabsContent>
 
-          <TabsContent value="football" className="space-y-6">
-            <FootballValueBets />
-          </TabsContent>
-
-          <TabsContent value="ufc" className="space-y-6">
-            <UFCPredictor />
+          <TabsContent value="stats" className="space-y-6">
+            <FootballStats />
           </TabsContent>
         </Tabs>
       </main>
@@ -87,11 +78,11 @@ const Index = () => {
       <footer className="border-t border-border mt-16">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <p>© 2024 BetAnalyzer. Аналитика спортивных ставок</p>
+            <p>© 2024 FootballAnalytics. Анализ футбольных матчей</p>
             <div className="flex items-center gap-4">
-              <a href="#" className="hover:text-foreground transition-colors">Статистика</a>
+              <a href="#" className="hover:text-foreground transition-colors">Лиги</a>
+              <a href="#" className="hover:text-foreground transition-colors">Команды</a>
               <a href="#" className="hover:text-foreground transition-colors">API</a>
-              <a href="#" className="hover:text-foreground transition-colors">Поддержка</a>
             </div>
           </div>
         </div>
