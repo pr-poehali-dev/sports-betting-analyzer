@@ -109,10 +109,6 @@ const TotalsPrediction = () => {
   const [modelStats, setModelStats] = useState({ accuracy: 73.2, totalGames: 2847 });
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    loadPredictions();
-  }, []);
-
   const loadPredictions = async () => {
     setLoading(true);
     try {
@@ -131,6 +127,10 @@ const TotalsPrediction = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadPredictions();
+  }, []);
 
   const toggleFavorite = (gameId: number) => {
     setFavorites(prev => {
