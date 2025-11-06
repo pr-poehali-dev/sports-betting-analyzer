@@ -7,6 +7,7 @@ import FootballTotals from '@/components/FootballTotals';
 import FootballStats from '@/components/FootballStats';
 import FootballCards from '@/components/FootballCards';
 import LiveBettingAnalyzer from '@/components/LiveBettingAnalyzer';
+import LiveMatchAnalysis from '@/components/LiveMatchAnalysis';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('live');
@@ -48,10 +49,14 @@ const Index = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:inline-grid">
+          <TabsList className="grid w-full grid-cols-6 lg:w-auto lg:inline-grid">
             <TabsTrigger value="live" className="gap-2">
               <Icon name="Radio" size={16} />
               Live
+            </TabsTrigger>
+            <TabsTrigger value="analysis" className="gap-2">
+              <Icon name="Activity" size={16} />
+              Анализ
             </TabsTrigger>
             <TabsTrigger value="matches" className="gap-2">
               <Icon name="CalendarDays" size={16} />
@@ -73,6 +78,10 @@ const Index = () => {
 
           <TabsContent value="live" className="space-y-6">
             <LiveBettingAnalyzer />
+          </TabsContent>
+
+          <TabsContent value="analysis" className="space-y-6">
+            <LiveMatchAnalysis />
           </TabsContent>
 
           <TabsContent value="matches" className="space-y-6">
