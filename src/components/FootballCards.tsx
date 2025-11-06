@@ -215,7 +215,7 @@ const FootballCards = () => {
               <Icon name="AlertTriangle" size={24} className="text-white" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-foreground">Анализ карточек</h3>
+              <h3 className="text-xl font-bold text-foreground mx-0">Анализ карточек</h3>
               <p className="text-sm text-muted-foreground">ИИ прогнозы желтых и красных карточек</p>
             </div>
           </div>
