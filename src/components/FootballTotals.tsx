@@ -5,6 +5,7 @@ import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { generateFootballTotalsExcel } from '@/utils/excelExport';
 
 const trendData = [
   { week: 'Неделя 1', avgGoals: 2.4, predicted: 2.5, accuracy: 68 },
@@ -106,9 +107,20 @@ const FootballTotals = () => {
               <p className="text-sm text-muted-foreground">Машинное обучение на основе 50,000+ матчей</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Уведомления</span>
-            <Switch checked={notifications} onCheckedChange={setNotifications} />
+          <div className="flex items-center gap-3">
+            <Button 
+              onClick={generateFootballTotalsExcel}
+              variant="outline"
+              size="sm"
+              className="gap-2"
+            >
+              <Icon name="Download" size={16} />
+              Скачать Excel
+            </Button>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Уведомления</span>
+              <Switch checked={notifications} onCheckedChange={setNotifications} />
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
